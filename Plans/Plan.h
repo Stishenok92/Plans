@@ -13,6 +13,10 @@ public:
     
     void read(std::istream&);
     void print(std::ostream&);
+    void printEasy(std::ostream&);
+    void printEasySay(std::ostream&);
+    void printEasyInternet(std::ostream&);
+    void printEasySmart(std::ostream&);
     void sortPaymentMonthly();
     void sortPaymentStart();
     void sortCostMinute();
@@ -71,6 +75,26 @@ void Plan:: read(std::istream& file)
 void Plan:: print(std::ostream& out)
 {
     std::copy(plans.begin(), plans.end(), std::ostream_iterator<std::shared_ptr<BasePlan>>(out, "\n"));
+}
+
+void Plan:: printEasy(std::ostream& out)
+{
+    std::copy_if(plans.begin(), plans.end(), std::ostream_iterator<std::shared_ptr<BasePlan>>(out, "\n"), [] (std::shared_ptr<BasePlan> plan) { return (typeid(*plan) == typeid(Easy)); });
+}
+
+void Plan:: printEasySay(std::ostream& out)
+{
+    std::copy_if(plans.begin(), plans.end(), std::ostream_iterator<std::shared_ptr<BasePlan>>(out, "\n"), [] (std::shared_ptr<BasePlan> plan) { return (typeid(*plan) == typeid(EasySay)); });
+}
+
+void Plan:: printEasyInternet(std::ostream& out)
+{
+    std::copy_if(plans.begin(), plans.end(), std::ostream_iterator<std::shared_ptr<BasePlan>>(out, "\n"), [] (std::shared_ptr<BasePlan> plan) { return (typeid(*plan) == typeid(EasyInternet)); });
+}
+
+void Plan:: printEasySmart(std::ostream& out)
+{
+    std::copy_if(plans.begin(), plans.end(), std::ostream_iterator<std::shared_ptr<BasePlan>>(out, "\n"), [] (std::shared_ptr<BasePlan> plan) { return (typeid(*plan) == typeid(EasySmart)); });
 }
 
 void Plan:: sortPaymentMonthly()
