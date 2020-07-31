@@ -1,15 +1,23 @@
-//
-//  main.cpp
-//  Plans
-//
-//  Created by Vadim Stishenok on 16.07.2020.
-//  Copyright © 2020 Vadim Stishenok. All rights reserved.
-//
+#include "Headers.h"
 
-#include <iostream>
-
-int main(int argc, const char * argv[]) {
-    // insert code here...
-    std::cout << "Hello, World!\n";
+int main()
+{
+    std::cout << "Task \"Mobile operator\"\n\n";
+    std::ifstream file("Plan.txt");
+    
+    if (!file)
+    {
+        std::cout << "Error opening file!\n";
+        return 0;
+    }
+    
+    Plan plans;
+    plans.read(file);
+    file.close();
+    
+    plans.print(std::cout);
+    
+    
+    system("pause");
     return 0;
 }

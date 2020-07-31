@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		AB18C61524C04E33002DE185 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB18C61424C04E33002DE185 /* main.cpp */; };
+		AB18C61524C04E33002DE185 /* Main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB18C61424C04E33002DE185 /* Main.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -24,7 +24,16 @@
 
 /* Begin PBXFileReference section */
 		AB18C61124C04E33002DE185 /* Plans */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = Plans; sourceTree = BUILT_PRODUCTS_DIR; };
-		AB18C61424C04E33002DE185 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
+		AB18C61424C04E33002DE185 /* Main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Main.cpp; sourceTree = "<group>"; };
+		AB18C61B24C04E87002DE185 /* Headers.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Headers.h; sourceTree = "<group>"; };
+		AB18C61C24C04F57002DE185 /* Base.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Base.h; sourceTree = "<group>"; };
+		AB18C61D24C098D6002DE185 /* Easy.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Easy.h; sourceTree = "<group>"; };
+		AB18C61E24C09A22002DE185 /* EasySay.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EasySay.h; sourceTree = "<group>"; };
+		AB18C61F24C09D62002DE185 /* EasyInternet.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EasyInternet.h; sourceTree = "<group>"; };
+		AB18C62024C0A15D002DE185 /* EasySmart.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EasySmart.h; sourceTree = "<group>"; };
+		AB18C62124C0A2D9002DE185 /* Plan.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Plan.h; sourceTree = "<group>"; };
+		AB18C63524D42E5A002DE185 /* CustomerBase.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CustomerBase.h; sourceTree = "<group>"; };
+		AB18C63624D43B15002DE185 /* Client.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Client.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -57,7 +66,16 @@
 		AB18C61324C04E33002DE185 /* Plans */ = {
 			isa = PBXGroup;
 			children = (
-				AB18C61424C04E33002DE185 /* main.cpp */,
+				AB18C61424C04E33002DE185 /* Main.cpp */,
+				AB18C61B24C04E87002DE185 /* Headers.h */,
+				AB18C61C24C04F57002DE185 /* Base.h */,
+				AB18C61D24C098D6002DE185 /* Easy.h */,
+				AB18C61E24C09A22002DE185 /* EasySay.h */,
+				AB18C61F24C09D62002DE185 /* EasyInternet.h */,
+				AB18C62024C0A15D002DE185 /* EasySmart.h */,
+				AB18C62124C0A2D9002DE185 /* Plan.h */,
+				AB18C63624D43B15002DE185 /* Client.h */,
+				AB18C63524D42E5A002DE185 /* CustomerBase.h */,
 			);
 			path = Plans;
 			sourceTree = "<group>";
@@ -119,7 +137,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AB18C61524C04E33002DE185 /* main.cpp in Sources */,
+				AB18C61524C04E33002DE185 /* Main.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
