@@ -16,6 +16,8 @@ private:
 public:
     BasePlan() = default;
     virtual ~BasePlan() = default;
+    
+    const std::string& getName() const { return name; }
     double getPaymentMonthly() const { return paymentMonthly; }
     double getPaymentStart() const { return paymentStart; }
     double getCostMinute() const { return costMinute; }
@@ -24,6 +26,7 @@ public:
     double getCostSms() const { return costSms; }
     double getCostSmsOtherOperator() const { return costSmsOtherOperator; }
     double getCostMb() const { return costMb; }
+    void setName(const std::string& name) { this->name = name; }
     void setPaymentMonthly(double paymentMonthly) { this->paymentMonthly = paymentMonthly; }
     void setPaymentStart(double paymentStart) { this->paymentStart = paymentStart; }
     void setCostMinute(double costMinute) { this->costMinute = costMinute; }
@@ -32,6 +35,7 @@ public:
     void setCostSms(double costSms) { this->costSms = costSms; }
     void setCostSmsOtherOperator(double costSmsOtherOperator) { this->costSmsOtherOperator = costSmsOtherOperator; }
     void setCostMb(double costMb) { this->costMb = costMb; }
+    
     virtual std::istream& read(std::istream&);
     virtual std::ostream& print(std::ostream&) const;
 };
@@ -57,7 +61,7 @@ std::ostream& BasePlan:: print(std::ostream& out) const
     return out;
 }
 
-std::ostream& operator<<(std::ostream& out, std::shared_ptr<BasePlan> ptr)
+std::ostream& operator<<(std::ostream& out, std::shared_ptr<BasePlan> ptr) //перегрузка для потокового итератора
 {
     ptr->print(out);
     return out;

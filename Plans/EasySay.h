@@ -9,6 +9,7 @@ private:
 public:
     EasySay() = default;
     ~EasySay() override = default;
+    
     std::istream& read(std::istream&) override;
     std::ostream& print(std::ostream&) const override;
 };
@@ -27,4 +28,4 @@ std::ostream& EasySay:: print(std::ostream& out) const
     std::setw(35) << "Package minute" << packageMinute << "\n" <<
     std::setw(35) << "Package sms" << packageSms;
     return out;
-    }
+}

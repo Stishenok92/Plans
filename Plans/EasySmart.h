@@ -10,6 +10,7 @@ private:
 public:
     EasySmart() = default;
     ~EasySmart() override = default;
+    
     std::istream& read(std::istream&) override;
     std::ostream& print(std::ostream&) const override;
 };

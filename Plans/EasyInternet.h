@@ -8,6 +8,7 @@ private:
 public:
     EasyInternet() = default;
     ~EasyInternet() override = default;
+    
     std::istream& read(std::istream&) override;
     std::ostream& print(std::ostream&) const override;
 };
