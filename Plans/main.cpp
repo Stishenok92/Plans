@@ -25,6 +25,7 @@ int main()
         "3. Display clients\n" <<
         "4. Sort clients\n" <<
         "5. Add client\n" <<
+        "6. Remove client\n" <<
         "\nEnter number operation: ";
         std::cin >> operation;
         
@@ -192,7 +193,7 @@ int main()
             }
             case 5: //################################################ add client
             {
-                std::string surname, name, number = "+375", temp_number;
+                std::string surname, name, number = "+37525", temp_number;
                 std::cout << "\nEnter surname: ";
                 std::cin >> surname;
                 std::cout << "Enter name: ";
@@ -200,22 +201,22 @@ int main()
                 
                 while (true)
                 {
-                    std::cout << "Enter number (9 digits): ";
+                    std::cout << "Enter number (7 digits): ";
                     std::cin >> temp_number;
                     
-                    if (temp_number.size() == 9)
+                    if (temp_number.size() == 7)
                     {
                         number += temp_number;
                         break;
                     }
                     else
                     {
-                        std::cout << "\nError number input!\n";
+                        std::cout << "\nError number input!\n\n";
                     }
                 }
                 
-                size_t num;
                 plan.sortName();
+                size_t num;
                 
                 while (true)
                 {
@@ -223,7 +224,7 @@ int main()
                     std::cout << "\nEnter number plan: ";
                     std::cin >> num;
                     
-                    if (num <= plan.getCount())
+                    if (num < plan.getCount())
                         break;
                     else
                         std::cout << "\nError number plan!\n\n";
@@ -236,6 +237,33 @@ int main()
                 client->setPlan(plan[num]);
                 clientBase.push(client);
                 std::cout << "\nClient successfully added!\n";
+                break;
+            }
+            case 6:
+            {
+                if (clientBase.getCount() == 0)
+                {
+                    std::cout << "\nClient base empty!\n";
+                    break;
+                }
+                
+                clientBase.sortSurname();
+                size_t num;
+                
+                while (true)
+                {
+                    clientBase.print(std::cout);
+                    std::cout << "\nEnter number position: ";
+                    std::cin >> num;
+                    
+                    if (num < plan.getCount())
+                        break;
+                    else
+                        std::cout << "\nError number position!\n\n";
+                }
+                
+                clientBase.remove(num);
+                std::cout << "\nClient successfully removed!\n";
                 break;
             }
             default:

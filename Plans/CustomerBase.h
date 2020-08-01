@@ -12,6 +12,7 @@ public:
     void print(std::ostream&);
     void printWithIndex(std::ostream&);
     void push(const std::shared_ptr<Client>&);
+    void remove(size_t);
     size_t getCount() const { return clients.size(); }
     void sortSurname();
     void sortNumber();
@@ -22,7 +23,8 @@ void ClientBase:: print(std::ostream& out)
 {
     size_t cur = 0;
     out << "\n" << std::left <<
-    std::setw(7) << "[№]" << std::setw(15) << "Surname" << std::setw(1543) << "Name" << std::setw(20) << "Number" << std::setw(15) << "Plan";
+    std::setw(7) << "[№]" << std::setw(15) << "Surname" << std::setw(15) << "Name" << std::setw(20) << "Number" << std::setw(15) << "Plan"
+    << "\n---------------------------------------------------------------------";
     std::for_each(clients.begin(), clients.end(), [&cur, &out] (std::shared_ptr<Client> client)
     {
         out << "\n" << "[" << cur++ << std::setw(3) << "]";
@@ -35,6 +37,11 @@ void ClientBase:: print(std::ostream& out)
 void ClientBase:: push(const std::shared_ptr<Client>& client)
 {
     clients.push_back(client);
+}
+
+void ClientBase:: remove(size_t index)
+{
+    clients.erase(clients.begin()+index);
 }
 
 void ClientBase:: sortSurname()
