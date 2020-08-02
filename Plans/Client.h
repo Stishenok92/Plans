@@ -30,3 +30,5 @@ std::ostream& operator<<(std::ostream& out, std::shared_ptr<Client> client)
     std::setw(15) << client->getSutname() << std::setw(15) << client->getName() << std::setw(20) << client->getNumber() << std::setw(15) << client->getPlan()->getName();
     return out;
 }
+
+

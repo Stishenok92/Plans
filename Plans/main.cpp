@@ -7,30 +7,51 @@ int main()
     
     if (!file)
     {
-        std::cout << "Error opening file!\n";
+        std::cout << "Error opening file Plan.txt!\n";
         return 0;
     }
     
     Plan plan;
     plan.read(file);
+    std::cout << "\nPlans successfully imported from file!\n";
     file.close();
     ClientBase clientBase;
+    file.open("Client.txt");
+    
+    if (!file)
+    {
+        std::cout << "Error opening file Client.txt!\n";
+        return 0;
+    }
+    clientBase.read(file);
+    std::cout << "\nClients successfully imported from file!\n";
+    file.close();
     
     while (true)
     {
+        bool flag = false;
         size_t operation;
         std::cout << "\nOperation:\n" <<
         "1. Display plans\n" <<
         "2. Sort plans\n" <<
-        "3. Display clients\n" <<
-        "4. Sort clients\n" <<
-        "5. Add client\n" <<
-        "6. Remove client\n" <<
+        "3. Choose plan for parameters\n" <<
+        "4. Display clients\n" <<
+        "5. Counting clients\n" <<
+        "6. Sort clients\n" <<
+        "7. Add client\n" <<
+        "8. Remove client\n" <<
+        "9. Save clients in file\n"
+        "0. Exit\n" <<
         "\nEnter number operation: ";
         std::cin >> operation;
         
         switch (operation)
         {
+            case 0:
+            {
+                flag = true;
+                break;
+            }
             case 1: //################################################ display plans
             {
                 while (true)
@@ -84,14 +105,15 @@ int main()
                     bool flag = true;
                     size_t operation;
                     std::cout << "\nOperation:\n" <<
-                    "1. Sort for payment monthly\n" <<
-                    "2. Sort for payment start\n" <<
-                    "3. Sort for cost minute\n" <<
-                    "4. Sort for cost minute other operator\n" <<
-                    "5. Sort for cost minute city phone\n" <<
-                    "6. Sort for cost sms\n" <<
-                    "7. Sort for cost sms other operator\n" <<
-                    "8. Sort for cost Mb\n" <<
+                    "1. Sort for name\n" <<
+                    "2. Sort for payment monthly\n" <<
+                    "3. Sort for payment start\n" <<
+                    "4. Sort for cost minute\n" <<
+                    "5. Sort for cost minute other operator\n" <<
+                    "6. Sort for cost minute city phone\n" <<
+                    "7. Sort for cost sms\n" <<
+                    "8. Sort for cost sms other operator\n" <<
+                    "9. Sort for cost Mb\n" <<
                     "0. Exit in start menu\n\n" <<
                     "Enter number operation: ";
                     std::cin >> operation;
@@ -101,27 +123,30 @@ int main()
                         case 0:
                             break;
                         case 1:
-                            plan.sortPaymentMonthly();
+                            plan.sortName();
                             break;
                         case 2:
-                            plan.sortPaymentStart();
+                            plan.sortPaymentMonthly();
                             break;
                         case 3:
-                            plan.sortCostMinute();
+                            plan.sortPaymentStart();
                             break;
                         case 4:
-                            plan.sortCostMinuteOtherOperator();
+                            plan.sortCostMinute();
                             break;
                         case 5:
-                            plan.sortCostMinuteCityPhone();
+                            plan.sortCostMinuteOtherOperator();
                             break;
                         case 6:
-                            plan.sortCostSms();
+                            plan.sortCostMinuteCityPhone();
                             break;
                         case 7:
-                            plan.sortCostSmsOtherOperator();
+                            plan.sortCostSms();
                             break;
                         case 8:
+                            plan.sortCostSmsOtherOperator();
+                            break;
+                        case 9:
                             plan.sortCostMb();
                             break;
                         default:
@@ -140,19 +165,100 @@ int main()
             }
             case 3:
             {
-                if (clientBase.getCount())
+                while (true)
                 {
-                    clientBase.print(std::cout);
-                }
-                else
-                {
-                    std::cout << "\nClient base empty!\n";
+                    bool flag = true;
+                    size_t operation;
+                    std::cout << "\nChoose plan for:\n" <<
+                    "1. Payment monthly\n" <<
+                    "2. Payment start\n" <<
+                    "3. Cost minute\n" <<
+                    "4. Cost minute other operator\n" <<
+                    "5. Cost minute city phone\n" <<
+                    "6. Cost sms\n" <<
+                    "7. Cost sms other operator\n" <<
+                    "8. Cost Mb\n" <<
+                    "0. Exit in start menu\n\n" <<
+                    "Enter number operation: ";
+                    std::cin >> operation;
+                    double cost;
+                    
+                    switch (operation)
+                    {
+                        case 0:
+                            break;
+                        case 1:
+                            std::cout << "\nEnter payment mountly: ";
+                            std::cin >> cost;
+                            plan.choosePlanPaymentMonthly(cost);
+                            break;
+                        case 2:
+                            std::cout << "\nEnter payment start: ";
+                            std::cin >> cost;
+                            plan.choosePlanPaymentStart(cost);
+                            break;
+                        case 3:
+                            std::cout << "\nEnter cost minute: ";
+                            std::cin >> cost;
+                            plan.choosePlanCostMinute(cost);
+                            break;
+                        case 4:
+                            std::cout << "\nEnter cost minute other operator: ";
+                            std::cin >> cost;
+                            plan.choosePlanCostMinuteOtherOperator(cost);
+                            break;
+                        case 5:
+                            std::cout << "\nEnter cost minute city phone: ";
+                            std::cin >> cost;
+                            plan.choosePlanCostCityPhone(cost);
+                            break;
+                        case 6:
+                            std::cout << "\nEnter cost sms: ";
+                            std::cin >> cost;
+                            plan.choosePlanCostSms(cost);
+                            break;
+                        case 7:
+                            std::cout << "\nEnter cost sms other operator: ";
+                            std::cin >> cost;
+                            plan.choosePlanCostSmsOtherOperator(cost);
+                            break;
+                        case 8:
+                            std::cout << "\nEnter cost Mb: ";
+                            std::cin >> cost;
+                            plan.choosePlanCostMb(cost);
+                            break;
+                        default:
+                            flag = false;
+                            std::cout << "\nError number operation!\n";
+                    }
+                    
+                    if (flag)
+                    {
+                        break;
+                    }
                 }
                 
                 break;
             }
             case 4:
             {
+                if (!clientBase.isEmpty())
+                {
+                    clientBase.print(std::cout);
+                }
+                
+                break;
+            }
+            case 5:
+            {
+                std::cout << "\nNumber of clients: " << clientBase.getCount() << "\n";
+                break;
+            }
+            case 6:
+            {
+                if (clientBase.isEmpty())
+                    break;
+                
                 while (true)
                 {
                     bool flag = true;
@@ -191,7 +297,7 @@ int main()
                 }
                 break;
             }
-            case 5: //################################################ add client
+            case 7: //################################################ add client
             {
                 std::string surname, name, number = "+37525", temp_number;
                 std::cout << "\nEnter surname: ";
@@ -239,15 +345,11 @@ int main()
                 std::cout << "\nClient successfully added!\n";
                 break;
             }
-            case 6:
+            case 8:
             {
-                if (clientBase.getCount() == 0)
-                {
-                    std::cout << "\nClient base empty!\n";
+                if (clientBase.isEmpty())
                     break;
-                }
                 
-                clientBase.sortSurname();
                 size_t num;
                 
                 while (true)
@@ -266,19 +368,22 @@ int main()
                 std::cout << "\nClient successfully removed!\n";
                 break;
             }
-            default:
+            case 9:
             {
+                std::ofstream fileout("Temp.txt");
+                clientBase.save(fileout);
                 break;
             }
-                
-                
+            default:
+            {
+                std::cout << "\nError number operation!\n";
+                break;
+            }
         }
         
-        
+        if (flag)
+            break;
     }
-    
-    
-    
     
     system("pause");
     return 0;

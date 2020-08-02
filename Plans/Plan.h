@@ -12,6 +12,7 @@ public:
     Plan() = default;
     ~Plan() = default;
     
+    bool isEmpty() const;
     size_t getCount() const { return plans.size(); }
     void read(std::istream&);
     void print(std::ostream&);
@@ -29,6 +30,14 @@ public:
     void sortCostSms();
     void sortCostSmsOtherOperator();
     void sortCostMb();
+    void choosePlanPaymentMonthly(double) const;
+    void choosePlanPaymentStart(double) const;
+    void choosePlanCostMinute(double) const;
+    void choosePlanCostMinuteOtherOperator(double) const;
+    void choosePlanCostCityPhone(double) const;
+    void choosePlanCostSms(double) const;
+    void choosePlanCostSmsOtherOperator(double) const;
+    void choosePlanCostMb(double) const;
     const std::shared_ptr<BasePlan>& operator[](size_t) const;
 };
 
@@ -155,4 +164,145 @@ void Plan:: sortCostMb()
 const std::shared_ptr<BasePlan>& Plan:: operator[](size_t index) const
 {
     return plans[index];
+}
+
+bool Plan:: isEmpty() const
+{
+    if (plans.size())
+    {
+        return false;
+    }
+    else
+    {
+        std::cout << "\nSorry, no suitable plans!\n";
+        return true;
+    }
+}
+
+void Plan:: choosePlanPaymentMonthly(double cost) const
+{
+    Plan temp_plan;
+    std::for_each(plans.begin(), plans.end(), [cost, &temp_plan] (std::shared_ptr<BasePlan> plan)
+    {
+        if (plan->getPaymentMonthly() <= cost)
+            temp_plan.plans.push_back(plan);
+    });
+    
+    if (!temp_plan.isEmpty())
+    {
+        temp_plan.sortPaymentMonthly();
+        temp_plan.print(std::cout);
+    }
+}
+
+void Plan:: choosePlanPaymentStart(double cost) const
+{
+    Plan temp_plan;
+    std::for_each(plans.begin(), plans.end(), [cost, &temp_plan] (std::shared_ptr<BasePlan> plan)
+                  {
+        if (plan->getPaymentStart() <= cost)
+            temp_plan.plans.push_back(plan);
+    });
+    
+    if (!temp_plan.isEmpty())
+    {
+        temp_plan.sortPaymentStart();
+        temp_plan.print(std::cout);
+    }
+}
+
+void Plan:: choosePlanCostMinute(double cost) const
+{
+    Plan temp_plan;
+    std::for_each(plans.begin(), plans.end(), [cost, &temp_plan] (std::shared_ptr<BasePlan> plan)
+                  {
+        if (plan->getCostMinute() <= cost)
+            temp_plan.plans.push_back(plan);
+    });
+    
+    if (!temp_plan.isEmpty())
+    {
+        temp_plan.sortCostMinute();
+        temp_plan.print(std::cout);
+    }
+}
+
+void Plan:: choosePlanCostMinuteOtherOperator(double cost) const
+{
+    Plan temp_plan;
+    std::for_each(plans.begin(), plans.end(), [cost, &temp_plan] (std::shared_ptr<BasePlan> plan)
+                  {
+        if (plan->getCostMinuteOtherOperator() <= cost)
+            temp_plan.plans.push_back(plan);
+    });
+    
+    if (!temp_plan.isEmpty())
+    {
+        temp_plan.sortCostMinuteOtherOperator();
+        temp_plan.print(std::cout);
+    }
+}
+
+void Plan:: choosePlanCostCityPhone(double cost) const
+{
+    Plan temp_plan;
+    std::for_each(plans.begin(), plans.end(), [cost, &temp_plan] (std::shared_ptr<BasePlan> plan)
+                  {
+        if (plan->getCostMinuteCityPhone() <= cost)
+            temp_plan.plans.push_back(plan);
+    });
+    
+    if (!temp_plan.isEmpty())
+    {
+        temp_plan.sortCostMinuteCityPhone();
+        temp_plan.print(std::cout);
+    }
+}
+
+void Plan:: choosePlanCostSms(double cost) const
+{
+    Plan temp_plan;
+    std::for_each(plans.begin(), plans.end(), [cost, &temp_plan] (std::shared_ptr<BasePlan> plan)
+                  {
+        if (plan->getCostSms() <= cost)
+            temp_plan.plans.push_back(plan);
+    });
+    
+    if (!temp_plan.isEmpty())
+    {
+        temp_plan.sortCostSms();
+        temp_plan.print(std::cout);
+    }
+}
+
+void Plan:: choosePlanCostSmsOtherOperator(double cost) const
+{
+    Plan temp_plan;
+    std::for_each(plans.begin(), plans.end(), [cost, &temp_plan] (std::shared_ptr<BasePlan> plan)
+                  {
+        if (plan->getCostSmsOtherOperator() <= cost)
+            temp_plan.plans.push_back(plan);
+    });
+    
+    if (!temp_plan.isEmpty())
+    {
+        temp_plan.sortCostSmsOtherOperator();
+        temp_plan.print(std::cout);
+    }
+}
+
+void Plan:: choosePlanCostMb(double cost) const
+{
+    Plan temp_plan;
+    std::for_each(plans.begin(), plans.end(), [cost, &temp_plan] (std::shared_ptr<BasePlan> plan)
+                  {
+        if (plan->getCostMb() <= cost)
+            temp_plan.plans.push_back(plan);
+    });
+    
+    if (!temp_plan.isEmpty())
+    {
+        temp_plan.sortCostMb();
+        temp_plan.print(std::cout);
+    }
 }
