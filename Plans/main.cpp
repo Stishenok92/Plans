@@ -13,19 +13,10 @@ int main()
     
     Plan plan;
     plan.read(file);
-    std::cout << "\nPlans successfully imported from file!\n";
+    std::cout << "\nPlans successfully imported!\n";
     file.close();
-    ClientBase clientBase;
-    file.open("Client.txt");
     
-    if (!file)
-    {
-        std::cout << "Error opening file Client.txt!\n";
-        return 0;
-    }
-    clientBase.read(file);
-    std::cout << "\nClients successfully imported from file!\n";
-    file.close();
+    ClientBase clientBase;
     
     while (true)
     {
@@ -52,7 +43,7 @@ int main()
                 flag = true;
                 break;
             }
-            case 1: //################################################ display plans
+            case 1:
             {
                 while (true)
                 {
@@ -96,9 +87,9 @@ int main()
                         break;
                 }
                 
-                break; //case 1
+                break;
             }
-            case 2: //################################################ sort plans
+            case 2:
             {
                 while (true)
                 {
@@ -161,7 +152,7 @@ int main()
                     }
                 }
                 
-                break; //case 2
+                break;
             }
             case 3:
             {
@@ -297,7 +288,7 @@ int main()
                 }
                 break;
             }
-            case 7: //################################################ add client
+            case 7:
             {
                 std::string surname, name, number = "+37525", temp_number;
                 std::cout << "\nEnter surname: ";
@@ -333,7 +324,7 @@ int main()
                     if (num < plan.getCount())
                         break;
                     else
-                        std::cout << "\nError number plan!\n\n";
+                        std::cout << "\nError number plan!\n";
                 }
                 
                 std::shared_ptr<Client> client = std::make_shared<Client>();
@@ -358,10 +349,10 @@ int main()
                     std::cout << "\nEnter number position: ";
                     std::cin >> num;
                     
-                    if (num < plan.getCount())
+                    if (num < clientBase.getCount())
                         break;
                     else
-                        std::cout << "\nError number position!\n\n";
+                        std::cout << "\nError number position!\n";
                 }
                 
                 clientBase.remove(num);
@@ -370,9 +361,14 @@ int main()
             }
             case 9:
             {
-                std::ofstream fileout("Temp.txt");
+                if (clientBase.isEmpty())
+                    break;
+                std::ofstream fileout("Client.txt");
                 clientBase.save(fileout);
+                fileout.close();
+                std::cout << "\nClients successfully exported from file Client.txt!\n";
                 break;
+                
             }
             default:
             {

@@ -26,6 +26,7 @@ public:
     double getCostSms() const { return costSms; }
     double getCostSmsOtherOperator() const { return costSmsOtherOperator; }
     double getCostMb() const { return costMb; }
+    
     void setName(const std::string& name) { this->name = name; }
     void setPaymentMonthly(double paymentMonthly) { this->paymentMonthly = paymentMonthly; }
     void setPaymentStart(double paymentStart) { this->paymentStart = paymentStart; }
@@ -48,8 +49,7 @@ std::istream& BasePlan:: read(std::istream& in)
 
 std::ostream& BasePlan:: print(std::ostream& out) const
 {
-    out << std::left << std::setfill('.') << "\n" <<
-    "Name plan \"" << name << "\"\n" <<
+    out << std::left << std::setfill('.') << "\n" << "Name plan \"" << name << "\"\n" <<
     std::setw(35) << "Payment monthly" << paymentMonthly << " byn\n" <<
     std::setw(35) << "Payment start" << paymentStart << " byn\n" <<
     std::setw(35) << "Cost minute" << costMinute << " byn\n" <<
@@ -57,11 +57,11 @@ std::ostream& BasePlan:: print(std::ostream& out) const
     std::setw(35) << "Cost minute (city phone)" << costMinuteCityPhone << " byn\n" <<
     std::setw(35) << "Cost sms" << costSms << " byn\n" <<
     std::setw(35) << "Cost sms (other operator)" << costSmsOtherOperator << " byn\n" <<
-    std::setw(35) << "Cost Mb" << costMb << " byn";
+    std::setw(35) << "Cost Mb" << costMb << " byn" << std::setfill(' ');
     return out;
 }
 
-std::ostream& operator<<(std::ostream& out, std::shared_ptr<BasePlan> ptr) //перегрузка для потокового итератора
+std::ostream& operator<<(std::ostream& out, std::shared_ptr<BasePlan> ptr)
 {
     ptr->print(out);
     return out;

@@ -28,6 +28,6 @@ std::ostream& EasySmart:: print(std::ostream& out) const
     out << std::left << std::setfill('.') << "\n" <<
     std::setw(35) <<"Package minute" << packageMinute << "\n" <<
     std::setw(35) <<"Package sms" << packageSms << "\n" <<
-    std::setw(35) <<"Package Mb" << packageMb;
+    std::setw(35) <<"Package Mb" << packageMb << std::setfill(' ');
     return out;
 }

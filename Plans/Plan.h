@@ -5,7 +5,6 @@ std::shared_ptr<BasePlan> ptr(int);
 
 class Plan
 {
-    
 private:
     std::vector<std::shared_ptr<BasePlan>> plans;
 public:
@@ -13,14 +12,15 @@ public:
     ~Plan() = default;
     
     bool isEmpty() const;
-    size_t getCount() const { return plans.size(); }
     void read(std::istream&);
-    void print(std::ostream&);
-    void printWithIndex(std::ostream&);
-    void printEasy(std::ostream&);
-    void printEasySay(std::ostream&);
-    void printEasyInternet(std::ostream&);
-    void printEasySmart(std::ostream&);
+    
+    void print(std::ostream&) const;
+    void printWithIndex(std::ostream&) const;
+    void printEasy(std::ostream&) const;
+    void printEasySay(std::ostream&) const;
+    void printEasyInternet(std::ostream&) const;
+    void printEasySmart(std::ostream&) const;
+    
     void sortName();
     void sortPaymentMonthly();
     void sortPaymentStart();
@@ -30,6 +30,7 @@ public:
     void sortCostSms();
     void sortCostSmsOtherOperator();
     void sortCostMb();
+    
     void choosePlanPaymentMonthly(double) const;
     void choosePlanPaymentStart(double) const;
     void choosePlanCostMinute(double) const;
@@ -38,7 +39,9 @@ public:
     void choosePlanCostSms(double) const;
     void choosePlanCostSmsOtherOperator(double) const;
     void choosePlanCostMb(double) const;
+    
     const std::shared_ptr<BasePlan>& operator[](size_t) const;
+    size_t getCount() const { return plans.size(); }
 };
 
 std::shared_ptr<BasePlan> ptr(int choise)
@@ -86,34 +89,34 @@ void Plan:: read(std::istream& file)
     }
 }
 
-void Plan:: print(std::ostream& out)
+void Plan:: print(std::ostream& out) const
 {
     std::copy(plans.begin(), plans.end(), std::ostream_iterator<std::shared_ptr<BasePlan>>(out, "\n"));
 }
 
-void Plan:: printWithIndex(std::ostream& out)
+void Plan:: printWithIndex(std::ostream& out) const
 {
     size_t num = 0;
     std::cout << "\n[№] Plan\n------------------\n";
     std::for_each(plans.begin(), plans.end(), [&num] (std::shared_ptr<BasePlan> temp_plan){ std::cout << "[" << num++ << "] " << temp_plan->getName() << "\n";});
 }
 
-void Plan:: printEasy(std::ostream& out)
+void Plan:: printEasy(std::ostream& out) const
 {
     std::copy_if(plans.begin(), plans.end(), std::ostream_iterator<std::shared_ptr<BasePlan>>(out, "\n"), [] (std::shared_ptr<BasePlan> plan) { return (typeid(*plan) == typeid(Easy)); });
 }
 
-void Plan:: printEasySay(std::ostream& out)
+void Plan:: printEasySay(std::ostream& out) const
 {
     std::copy_if(plans.begin(), plans.end(), std::ostream_iterator<std::shared_ptr<BasePlan>>(out, "\n"), [] (std::shared_ptr<BasePlan> plan) { return (typeid(*plan) == typeid(EasySay)); });
 }
 
-void Plan:: printEasyInternet(std::ostream& out)
+void Plan:: printEasyInternet(std::ostream& out) const
 {
     std::copy_if(plans.begin(), plans.end(), std::ostream_iterator<std::shared_ptr<BasePlan>>(out, "\n"), [] (std::shared_ptr<BasePlan> plan) { return (typeid(*plan) == typeid(EasyInternet)); });
 }
 
-void Plan:: printEasySmart(std::ostream& out)
+void Plan:: printEasySmart(std::ostream& out) const
 {
     std::copy_if(plans.begin(), plans.end(), std::ostream_iterator<std::shared_ptr<BasePlan>>(out, "\n"), [] (std::shared_ptr<BasePlan> plan) { return (typeid(*plan) == typeid(EasySmart)); });
 }
@@ -183,7 +186,7 @@ void Plan:: choosePlanPaymentMonthly(double cost) const
 {
     Plan temp_plan;
     std::for_each(plans.begin(), plans.end(), [cost, &temp_plan] (std::shared_ptr<BasePlan> plan)
-    {
+                  {
         if (plan->getPaymentMonthly() <= cost)
             temp_plan.plans.push_back(plan);
     });

@@ -5,7 +5,6 @@
 #include <typeinfo>
 #include <vector>
 #include <sstream>
-
 #include "Base.h"
 #include "Easy.h"
 #include "EasySay.h"

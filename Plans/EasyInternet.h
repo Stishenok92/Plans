@@ -24,6 +24,6 @@ std::ostream& EasyInternet:: print(std::ostream& out) const
 {
     BasePlan::print(out);
     out << std::left << std::setfill('.') << "\n" <<
-    std::setw(35) << "Package Mb" << packageMb;
+    std::setw(35) << "Package Mb" << packageMb << std::setfill(' ');
     return out;
 }

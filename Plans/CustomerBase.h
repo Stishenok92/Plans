@@ -9,20 +9,20 @@ public:
     ClientBase() = default;
     ~ClientBase() = default;
     
-    bool isEmpty();
-    void print(std::ostream&);
-    void printWithIndex(std::ostream&);
-    void read(std::istream&);
-    void save(std::ostream&);
+    bool isEmpty() const;
+    void print(std::ostream&) const;
+    void save(std::ostream&) const;
     void push(const std::shared_ptr<Client>&);
     void remove(size_t);
+    
     void sortSurname();
     void sortNumber();
     void sortPlan();
+    
     size_t getCount() const { return clients.size(); }
 };
 
-void ClientBase:: print(std::ostream& out)
+void ClientBase:: print(std::ostream& out) const
 {
     size_t cur = 0;
     out << "\n" << std::left <<
@@ -66,7 +66,7 @@ void ClientBase:: sortPlan()
     std::sort(clients.begin(), clients.end(), [] (std::shared_ptr<Client> a, std::shared_ptr<Client> b) { return a->getPlan() < b->getPlan(); });
 }
 
-bool ClientBase:: isEmpty()
+bool ClientBase:: isEmpty() const
 {
     if (clients.size())
     {
@@ -79,21 +79,8 @@ bool ClientBase:: isEmpty()
     }
 }
 
-void ClientBase:: read(std::istream& file)
+void ClientBase::save(std::ostream& file) const
 {
-    while (!file.eof())
-    {
-//        int number;
-//        file >> number;
-//        plans.push_back(ptr(number));
-//        std::string str;
-//        getline(file, str);
-//        std::istringstream ss(str);
-//        plans.back()->read(ss);
-    }
-}
-
-void ClientBase::save(std::ostream& file)
-{
-    std::copy(clients.begin(), clients.end(), std::ostream_iterator<std::shared_ptr<Client>>(file, " "));
+    file << std::left << std::setw(15) << "Surname" << std::setw(15) << "Name" << std::setw(20) << "Number" << std::setw(15) << "Plan" << "\n";
+    std::copy(clients.begin(), clients.end(), std::ostream_iterator<std::shared_ptr<Client>>(file, "\n"));
 }
