@@ -13,7 +13,7 @@ public:
     Client() = default;
     ~Client() = default;
     
-    const std::string& getSutname() const { return surname; }
+    const std::string& getSurname() const { return surname; }
     const std::string& getName() const { return name; }
     const std::string& getPatronymic() const { return patronymic; }
     const std::string& getNumber() const { return number; }
@@ -24,17 +24,28 @@ public:
     void setNumber(const std::string& number) { this->number = number; }
     void setPatronymic(const std::string& patronymic) { this->patronymic = patronymic; }
     void setPlan(const std::shared_ptr<BasePlan> plan) { this->plan = plan; }
-    
+    std::ostream& printClient(std::ostream&) const;
     friend std::ostream& operator<<(std::ostream&, const Client&);
 };
 
 std::ostream& operator<<(std::ostream& out, std::shared_ptr<Client> client)
 {
     out << std::left <<
-    std::setw(20) << client->getSutname() <<
+    std::setw(20) << client->getSurname() <<
     std::setw(20) << client->getName() <<
     std::setw(20) << client->getPatronymic() <<
     std::setw(20) << client->getNumber() <<
     std::setw(20) << client->getPlan()->getName();
+    return out;
+}
+
+std::ostream& Client:: printClient(std::ostream& out) const
+{
+    out << std::left << std::setfill('.') << "\n" << "Client information\n" <<
+    std::setw(40) << "Surname" << surname << "\n" <<
+    std::setw(40) << "Name" << name << "\n" <<
+    std::setw(40) << "Patronymic" << patronymic << "\n" <<
+    std::setw(40) << "Number" << number << "\n" <<
+    std::setw(40) << "Plan" << plan->getName() << "\n" << std::setfill(' ') ;
     return out;
 }

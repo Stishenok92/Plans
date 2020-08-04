@@ -11,10 +11,11 @@ public:
     
     bool isEmpty() const;
     void print(std::ostream&) const;
-    void save(std::ostream&) const;
+    void addInFile(const std::shared_ptr<Client>&);
     void push(const std::shared_ptr<Client>&);
     void remove(size_t);
     bool checkNumber(const std::string&) const;
+    void eraseClientForNumber(const std::string&);
     void sortSurname();
     void sortNumber();
     void sortPlan();
@@ -34,7 +35,7 @@ void ClientBase:: print(std::ostream& out) const
     std::setw(20) << "Plan" <<
     std::setfill('-') << std::setw(100) << "\n" << std::setfill(' ');
     std::for_each(clients.begin(), clients.end(), [&cur, &out] (std::shared_ptr<Client> client)
-    {
+                  {
         out << "\n" << "[" << cur++ << std::setw(3) << "]";
         out << client;
     });
@@ -45,6 +46,7 @@ void ClientBase:: print(std::ostream& out) const
 void ClientBase:: push(const std::shared_ptr<Client>& client)
 {
     clients.push_back(client);
+    addInFile(client);
 }
 
 void ClientBase:: remove(size_t index)
@@ -54,7 +56,7 @@ void ClientBase:: remove(size_t index)
 
 void ClientBase:: sortSurname()
 {
-    std::sort(clients.begin(), clients.end(), [] (std::shared_ptr<Client> a, std::shared_ptr<Client> b) { return a->getSutname() < b->getSutname(); });
+    std::sort(clients.begin(), clients.end(), [] (std::shared_ptr<Client> a, std::shared_ptr<Client> b) { return a->getSurname() < b->getSurname(); });
 }
 
 void ClientBase:: sortNumber()
@@ -80,16 +82,10 @@ bool ClientBase:: isEmpty() const
     }
 }
 
-void ClientBase::save(std::ostream& file) const
-{
-    file << std::left << std::setw(20) << "Surname" << std::setw(20) << "Name" << std::setw(20) << "Patronymic" << std::setw(20) << "Number" << std::setw(20) << "Plan" << "\n";
-    std::copy(clients.begin(), clients.end(), std::ostream_iterator<std::shared_ptr<Client>>(file, "\n"));
-}
-
 bool ClientBase::checkNumber(const std::string& number) const
 {
     auto it = std::find_if(clients.begin(), clients.end(), [number] (std::shared_ptr<Client> client)
-    {
+                           {
         return client->getNumber() == number;
     });
     
@@ -97,4 +93,54 @@ bool ClientBase::checkNumber(const std::string& number) const
         return true;
     else
         return false;
+}
+
+void ClientBase::addInFile(const std::shared_ptr<Client>& client)
+{
+    std::ofstream infile("Client.txt", std::ios::app);
+    infile << std::left << "\n" <<
+    std::setw(20) << client->getSurname() <<
+    std::setw(20) << client->getName() <<
+    std::setw(20) << client->getPatronymic() <<
+    std::setw(20) << client->getNumber() <<
+    std::setw(20) << client->getPlan()->getName();;
+    infile.close();
+}
+
+void ClientBase::eraseClientForNumber(const std::string& number)
+{
+    auto it = std::find_if(clients.begin(), clients.end(), [number] (std::shared_ptr<Client> client)
+                           {
+        return client->getNumber() == number;
+    });
+    
+    if (it == clients.end())
+    {
+        std::cout << "\nError! Сlient with this number is missing!\n";
+        return;
+    }
+    
+    (*it)->printClient(std::cout);
+    
+    while (true)
+    {
+        char operation;
+        std::cout << "\nDelete this client? (y/n): ";
+        std::cin >> operation;
+        
+        if (operation == 'y')
+        {
+            clients.erase(it);
+            std::cout << "\nСlient successfully deleted!\n";
+            return;
+        }
+        else if (operation == 'n')
+        {
+            return;
+        }
+        else
+        {
+            std::cout << "\nError command!\n";
+        }
+    }
 }
