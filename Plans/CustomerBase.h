@@ -14,7 +14,7 @@ public:
     void save(std::ostream&) const;
     void push(const std::shared_ptr<Client>&);
     void remove(size_t);
-    
+    bool checkNumber(const std::string&) const;
     void sortSurname();
     void sortNumber();
     void sortPlan();
@@ -27,11 +27,12 @@ void ClientBase:: print(std::ostream& out) const
     size_t cur = 0;
     out << "\n" << std::left <<
     std::setw(7) << "[№]" <<
-    std::setw(15) << "Surname" <<
-    std::setw(15) << "Name" <<
+    std::setw(20) << "Surname" <<
+    std::setw(20) << "Name" <<
+    std::setw(20) << "Patronymic" <<
     std::setw(20) << "Number" <<
-    std::setw(15) << "Plan" <<
-    std::setfill('-') << std::setw(70) << "\n" << std::setfill(' ');
+    std::setw(20) << "Plan" <<
+    std::setfill('-') << std::setw(100) << "\n" << std::setfill(' ');
     std::for_each(clients.begin(), clients.end(), [&cur, &out] (std::shared_ptr<Client> client)
     {
         out << "\n" << "[" << cur++ << std::setw(3) << "]";
@@ -81,6 +82,19 @@ bool ClientBase:: isEmpty() const
 
 void ClientBase::save(std::ostream& file) const
 {
-    file << std::left << std::setw(15) << "Surname" << std::setw(15) << "Name" << std::setw(20) << "Number" << std::setw(15) << "Plan" << "\n";
+    file << std::left << std::setw(20) << "Surname" << std::setw(20) << "Name" << std::setw(20) << "Patronymic" << std::setw(20) << "Number" << std::setw(20) << "Plan" << "\n";
     std::copy(clients.begin(), clients.end(), std::ostream_iterator<std::shared_ptr<Client>>(file, "\n"));
+}
+
+bool ClientBase::checkNumber(const std::string& number) const
+{
+    auto it = std::find_if(clients.begin(), clients.end(), [number] (std::shared_ptr<Client> client)
+    {
+        return client->getNumber() == number;
+    });
+    
+    if (it == clients.end())
+        return true;
+    else
+        return false;
 }
