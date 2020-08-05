@@ -34,6 +34,7 @@
 		AB18C62124C0A2D9002DE185 /* Plan.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Plan.h; sourceTree = "<group>"; };
 		AB18C63524D42E5A002DE185 /* CustomerBase.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CustomerBase.h; sourceTree = "<group>"; };
 		AB18C63624D43B15002DE185 /* Client.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Client.h; sourceTree = "<group>"; };
+		AB33A8F924DB2E960037EB5E /* Menu.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Menu.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -76,6 +77,7 @@
 				AB18C62124C0A2D9002DE185 /* Plan.h */,
 				AB18C63624D43B15002DE185 /* Client.h */,
 				AB18C63524D42E5A002DE185 /* CustomerBase.h */,
+				AB33A8F924DB2E960037EB5E /* Menu.h */,
 			);
 			path = Plans;
 			sourceTree = "<group>";

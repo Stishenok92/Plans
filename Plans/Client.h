@@ -11,6 +11,7 @@ private:
     std::shared_ptr<BasePlan> plan;
 public:
     Client() = default;
+    Client(std::string, std::string, std::string, std::string, std::shared_ptr<BasePlan>);
     ~Client() = default;
     
     const std::string& getSurname() const { return surname; }
@@ -24,9 +25,19 @@ public:
     void setNumber(const std::string& number) { this->number = number; }
     void setPatronymic(const std::string& patronymic) { this->patronymic = patronymic; }
     void setPlan(const std::shared_ptr<BasePlan> plan) { this->plan = plan; }
-    std::ostream& printClient(std::ostream&) const;
+    
+    std::ostream& print(std::ostream&) const;
     friend std::ostream& operator<<(std::ostream&, const Client&);
 };
+
+Client:: Client(std::string surname, std::string name, std::string patronymic, std::string number, std::shared_ptr<BasePlan> plan)
+{
+    this->surname = surname;
+    this->name = name;
+    this->patronymic = patronymic;
+    this->number = number;
+    this->plan = plan;
+}
 
 std::ostream& operator<<(std::ostream& out, std::shared_ptr<Client> client)
 {
@@ -39,13 +50,15 @@ std::ostream& operator<<(std::ostream& out, std::shared_ptr<Client> client)
     return out;
 }
 
-std::ostream& Client:: printClient(std::ostream& out) const
+std::ostream& Client:: print(std::ostream& out) const
 {
     out << std::left << std::setfill('.') << "\n" << "Client information\n" <<
-    std::setw(40) << "Surname" << surname << "\n" <<
-    std::setw(40) << "Name" << name << "\n" <<
-    std::setw(40) << "Patronymic" << patronymic << "\n" <<
-    std::setw(40) << "Number" << number << "\n" <<
-    std::setw(40) << "Plan" << plan->getName() << "\n" << std::setfill(' ') ;
+    std::setw(35) << "Surname" << surname << "\n" <<
+    std::setw(35) << "Name" << name << "\n" <<
+    std::setw(35) << "Patronymic" << patronymic << "\n" <<
+    std::setw(35) << "Number" << number << "\n" <<
+    std::setw(35) << "Plan" << plan->getName() << "\n" << std::setfill(' ') ;
     return out;
 }
+
+

@@ -1,8 +1,6 @@
 #pragma once
 #include "Headers.h"
 
-std::shared_ptr<BasePlan> ptr(int);
-
 class Plan
 {
 private:
@@ -44,34 +42,37 @@ public:
     size_t getCount() const { return plans.size(); }
 };
 
+std::ostream& line(std::ostream& out) //манипулятор вывода линии
+{
+    out << std::left << std::setfill('-') << std::setw(44) << "-" << "\n" << std::setfill(' ');
+    return out;
+}
+
 std::shared_ptr<BasePlan> ptr(int choise)
 {
     switch (choise)
     {
         case 0:
-        {
             return std::make_shared<Easy>();
-            break;
-        }
         case 1:
-        {
             return std::make_shared<EasySay>();
-            break;
-        }
         case 2:
-        {
             return std::make_shared<EasyInternet>();
-            break;
-        }
         case 3:
-        {
             return std::make_shared<EasySmart>();
-            break;
-        }
         default:
-        {
             return nullptr;
-        }
+    }
+}
+
+bool Plan:: isEmpty() const
+{
+    if (plans.size())
+        return false;
+    else
+    {
+        std::cout << "\nSorry, no suitable plans!\n";
+        return true;
     }
 }
 
@@ -97,8 +98,9 @@ void Plan:: print(std::ostream& out) const
 void Plan:: printWithIndex(std::ostream& out) const
 {
     size_t num = 0;
-    std::cout << "\n[№] Plan\n------------------\n";
-    std::for_each(plans.begin(), plans.end(), [&num] (std::shared_ptr<BasePlan> temp_plan){ std::cout << "[" << num++ << "] " << temp_plan->getName() << "\n";});
+    out << "\n" << line << "[№]  Plan" << "\n" << line;
+    std::for_each(plans.begin(), plans.end(), [&num, &out] (std::shared_ptr<BasePlan> temp_plan) { out << "[" << num++ << "]  " << temp_plan->getName() << "\n";});
+    out << line;
 }
 
 void Plan:: printEasy(std::ostream& out) const
@@ -169,27 +171,10 @@ const std::shared_ptr<BasePlan>& Plan:: operator[](size_t index) const
     return plans[index];
 }
 
-bool Plan:: isEmpty() const
-{
-    if (plans.size())
-    {
-        return false;
-    }
-    else
-    {
-        std::cout << "\nSorry, no suitable plans!\n";
-        return true;
-    }
-}
-
 void Plan:: choosePlanPaymentMonthly(double cost) const
 {
     Plan temp_plan;
-    std::for_each(plans.begin(), plans.end(), [cost, &temp_plan] (std::shared_ptr<BasePlan> plan)
-                  {
-        if (plan->getPaymentMonthly() <= cost)
-            temp_plan.plans.push_back(plan);
-    });
+    std::copy_if(plans.begin(), plans.end(), std::back_inserter(temp_plan.plans), [cost] (std::shared_ptr<BasePlan> plan) { return plan->getPaymentMonthly() <= cost; });
     
     if (!temp_plan.isEmpty())
     {
@@ -201,11 +186,7 @@ void Plan:: choosePlanPaymentMonthly(double cost) const
 void Plan:: choosePlanPaymentStart(double cost) const
 {
     Plan temp_plan;
-    std::for_each(plans.begin(), plans.end(), [cost, &temp_plan] (std::shared_ptr<BasePlan> plan)
-                  {
-        if (plan->getPaymentStart() <= cost)
-            temp_plan.plans.push_back(plan);
-    });
+    std::copy_if(plans.begin(), plans.end(), std::back_inserter(temp_plan.plans), [cost] (std::shared_ptr<BasePlan> plan) { return plan->getPaymentStart() <= cost; });
     
     if (!temp_plan.isEmpty())
     {
@@ -217,11 +198,7 @@ void Plan:: choosePlanPaymentStart(double cost) const
 void Plan:: choosePlanCostMinute(double cost) const
 {
     Plan temp_plan;
-    std::for_each(plans.begin(), plans.end(), [cost, &temp_plan] (std::shared_ptr<BasePlan> plan)
-                  {
-        if (plan->getCostMinute() <= cost)
-            temp_plan.plans.push_back(plan);
-    });
+    std::copy_if(plans.begin(), plans.end(), std::back_inserter(temp_plan.plans), [cost] (std::shared_ptr<BasePlan> plan) { return plan->getCostMinute() <= cost; });
     
     if (!temp_plan.isEmpty())
     {
@@ -233,11 +210,7 @@ void Plan:: choosePlanCostMinute(double cost) const
 void Plan:: choosePlanCostMinuteOtherOperator(double cost) const
 {
     Plan temp_plan;
-    std::for_each(plans.begin(), plans.end(), [cost, &temp_plan] (std::shared_ptr<BasePlan> plan)
-                  {
-        if (plan->getCostMinuteOtherOperator() <= cost)
-            temp_plan.plans.push_back(plan);
-    });
+    std::copy_if(plans.begin(), plans.end(), std::back_inserter(temp_plan.plans), [cost] (std::shared_ptr<BasePlan> plan) { return plan->getCostMinuteOtherOperator() <= cost; });
     
     if (!temp_plan.isEmpty())
     {
@@ -249,11 +222,7 @@ void Plan:: choosePlanCostMinuteOtherOperator(double cost) const
 void Plan:: choosePlanCostCityPhone(double cost) const
 {
     Plan temp_plan;
-    std::for_each(plans.begin(), plans.end(), [cost, &temp_plan] (std::shared_ptr<BasePlan> plan)
-                  {
-        if (plan->getCostMinuteCityPhone() <= cost)
-            temp_plan.plans.push_back(plan);
-    });
+    std::copy_if(plans.begin(), plans.end(), std::back_inserter(temp_plan.plans), [cost] (std::shared_ptr<BasePlan> plan) { return plan->getCostMinuteCityPhone() <= cost; });
     
     if (!temp_plan.isEmpty())
     {
@@ -265,11 +234,7 @@ void Plan:: choosePlanCostCityPhone(double cost) const
 void Plan:: choosePlanCostSms(double cost) const
 {
     Plan temp_plan;
-    std::for_each(plans.begin(), plans.end(), [cost, &temp_plan] (std::shared_ptr<BasePlan> plan)
-                  {
-        if (plan->getCostSms() <= cost)
-            temp_plan.plans.push_back(plan);
-    });
+    std::copy_if(plans.begin(), plans.end(), std::back_inserter(temp_plan.plans), [cost] (std::shared_ptr<BasePlan> plan) { return plan->getCostSms() <= cost; });
     
     if (!temp_plan.isEmpty())
     {
@@ -281,11 +246,7 @@ void Plan:: choosePlanCostSms(double cost) const
 void Plan:: choosePlanCostSmsOtherOperator(double cost) const
 {
     Plan temp_plan;
-    std::for_each(plans.begin(), plans.end(), [cost, &temp_plan] (std::shared_ptr<BasePlan> plan)
-                  {
-        if (plan->getCostSmsOtherOperator() <= cost)
-            temp_plan.plans.push_back(plan);
-    });
+    std::copy_if(plans.begin(), plans.end(), std::back_inserter(temp_plan.plans), [cost] (std::shared_ptr<BasePlan> plan) { return plan->getCostSmsOtherOperator() <= cost; });
     
     if (!temp_plan.isEmpty())
     {
@@ -297,11 +258,7 @@ void Plan:: choosePlanCostSmsOtherOperator(double cost) const
 void Plan:: choosePlanCostMb(double cost) const
 {
     Plan temp_plan;
-    std::for_each(plans.begin(), plans.end(), [cost, &temp_plan] (std::shared_ptr<BasePlan> plan)
-                  {
-        if (plan->getCostMb() <= cost)
-            temp_plan.plans.push_back(plan);
-    });
+    std::copy_if(plans.begin(), plans.end(), std::back_inserter(temp_plan.plans), [cost] (std::shared_ptr<BasePlan> plan) { return plan->getCostMb() <= cost; });
     
     if (!temp_plan.isEmpty())
     {
