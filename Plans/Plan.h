@@ -9,40 +9,40 @@ public:
     Plan() = default;
     ~Plan() = default;
     
-    bool isEmpty() const;
-    void read(std::istream&);
+    bool isEmpty() const;                                           //проверка ветора на пустоту
+    void read(std::istream&);                                       //чтение тарифных планов из файла в вектор
     
-    void print(std::ostream&) const;
-    void printWithIndex(std::ostream&) const;
-    void printEasy(std::ostream&) const;
-    void printEasySay(std::ostream&) const;
-    void printEasyInternet(std::ostream&) const;
-    void printEasySmart(std::ostream&) const;
+    void print(std::ostream&) const;                                //вывод на консоль полного описания всех тарифных планов
+    void printEasy(std::ostream&) const;                            //вывод на консоль полного описания тарифных планов линейки Easy
+    void printEasySay(std::ostream&) const;                         //вывод на консоль полного описания тарифных планов линейки EasySay
+    void printEasyInternet(std::ostream&) const;                    //вывод на консоль полного описания тарифных планов линейки EasyInternet
+    void printEasySmart(std::ostream&) const;                       //вывод на консоль полного описания тарифных планов линейки EasySmart
+    void printWithIndex(std::ostream&) const;                       //вывод на консоль индексов расположения в векторе и названий тарифных планов
     
-    void sortName();
-    void sortPaymentMonthly();
-    void sortPaymentStart();
-    void sortCostMinute();
-    void sortCostMinuteOtherOperator();
-    void sortCostMinuteCityPhone();
-    void sortCostSms();
-    void sortCostSmsOtherOperator();
-    void sortCostMb();
+    void sortName();                                                //сортировка по имени
+    void sortPaymentMonthly();                                      //сортировка по ежемесячному платежу
+    void sortPaymentStart();                                        //сортировка по первоначальному платежу
+    void sortCostMinute();                                          //сортировка по стоимости минуты внутри сети
+    void sortCostMinuteOtherOperator();                             //сортировка по стоимости минуты в сети другого оператора
+    void sortCostMinuteCityPhone();                                 //сортировка по стоимости минуты на городские/стационарные телефоны
+    void sortCostSms();                                             //сортировка по стоимости sms внутри сети
+    void sortCostSmsOtherOperator();                                //сортировка по стоимости sms в сети другого оператора
+    void sortCostMb();                                              //сортировка по стоимости Mb
     
-    void choosePlanPaymentMonthly(double) const;
-    void choosePlanPaymentStart(double) const;
-    void choosePlanCostMinute(double) const;
-    void choosePlanCostMinuteOtherOperator(double) const;
-    void choosePlanCostCityPhone(double) const;
-    void choosePlanCostSms(double) const;
-    void choosePlanCostSmsOtherOperator(double) const;
-    void choosePlanCostMb(double) const;
+    void choosePlanPaymentMonthly(double) const;                    //выбор тарифного плана по стоимости ежемесячного платежа
+    void choosePlanPaymentStart(double) const;                      //выбор тарифного плана по стоимости первоначального платежа
+    void choosePlanCostMinute(double) const;                        //выбор тарифного плана по стоимости минуты внутри сети
+    void choosePlanCostMinuteOtherOperator(double) const;           //выбор тарифного плана по стоимости минуты в сети другого оператора
+    void choosePlanCostCityPhone(double) const;                     //выбор тарифного плана по стоимости минуты на городские/стационарные телефоны
+    void choosePlanCostSms(double) const;                           //выбор тарифного плана по стоимости sms внутри сети
+    void choosePlanCostSmsOtherOperator(double) const;              //выбор тарифного плана по стоимости sms в сети другого оператора
+    void choosePlanCostMb(double) const;                            //выбор тарифного плана по стоимости Mb
     
-    const std::shared_ptr<BasePlan>& operator[](size_t) const;
-    size_t getCount() const { return plans.size(); }
+    const std::shared_ptr<BasePlan>& operator[](size_t) const;      //перегрузка оператора для доступа к элементам тарифных планов в веторе
+    size_t getCount() const { return plans.size(); }                //получение количества клиентов
 };
 
-std::ostream& line(std::ostream& out) //манипулятор вывода линии
+std::ostream& line(std::ostream& out)                               //манипулятор вывода линии
 {
     out << std::left << std::setfill('-') << std::setw(44) << "-" << "\n" << std::setfill(' ');
     return out;

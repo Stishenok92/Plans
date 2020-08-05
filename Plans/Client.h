@@ -39,17 +39,6 @@ Client:: Client(std::string surname, std::string name, std::string patronymic, s
     this->plan = plan;
 }
 
-std::ostream& operator<<(std::ostream& out, std::shared_ptr<Client> client)
-{
-    out << std::left <<
-    std::setw(20) << client->getSurname() <<
-    std::setw(20) << client->getName() <<
-    std::setw(20) << client->getPatronymic() <<
-    std::setw(20) << client->getNumber() <<
-    std::setw(20) << client->getPlan()->getName();
-    return out;
-}
-
 std::ostream& Client:: print(std::ostream& out) const
 {
     out << std::left << std::setfill('.') << "\n" << "Client information\n" <<
@@ -61,4 +50,13 @@ std::ostream& Client:: print(std::ostream& out) const
     return out;
 }
 
-
+std::ostream& operator<<(std::ostream& out, std::shared_ptr<Client> client)
+{
+    out << std::left <<
+    std::setw(20) << client->getSurname() <<
+    std::setw(20) << client->getName() <<
+    std::setw(20) << client->getPatronymic() <<
+    std::setw(20) << client->getNumber() <<
+    std::setw(20) << client->getPlan()->getName();
+    return out;
+}

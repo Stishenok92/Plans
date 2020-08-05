@@ -237,70 +237,14 @@ void clientsPrintMenu(const ClientBase& clientBase)
 
 void clientAddMenu(ClientBase& clientBase, Plan& plan)
 {
-    std::string surname, name, patronymic, code, number;
+    std::string surname, name, patronymic, number;
     std::cout << "\nEnter surname: ";
     std::cin >> surname;
     std::cout << "Enter name: ";
     std::cin >> name;
     std::cout << "Enter patronymic: ";
     std::cin >> patronymic;
-    
-    while (true)
-    {
-        bool flag = true;
-        std::size_t operation;
-        std::cout << "\nPossible code:\n" <<
-        "1. +37525\n" <<
-        "2. +37529\n" <<
-        "3. +37544\n" <<
-        "4. +37533\n" <<
-        "\nEnter number code: ";
-        std::cin >> operation;
-        
-        switch (operation)
-        {
-            case 1:
-                code = "+37525";
-                break;
-            case 2:
-                code = "+37529";
-                break;
-            case 3:
-                code = "+37544";
-                break;
-            case 4:
-                code = "+37533";
-                break;
-            default:
-                flag = false;
-                std::cout << "\nError number code!\n";
-        }
-        
-        if (flag)
-            break;
-    }
-    
-    while (true)
-    {
-        std::cout << "Enter number: ";
-        std::cin >> number;
-        
-        if (number.size() == 7)
-        {
-            number = code + number;
-        }
-        else
-        {
-            std::cout << "\nError number input!\n\n";
-            continue;
-        }
-        
-        if (clientBase.checkNumber(number))
-            break;
-        else
-            std::cout << "\nError! This number already used!\n\n";
-    }
-    
+    number = clientBase.getNewNumber();
     size_t num;
     
     while (true)
@@ -341,4 +285,28 @@ void clientEraseMenu(ClientBase& clientBase, Plan& plan)
     }
     
     clientBase.eraseClient(number);
+}
+
+void clientEditMenu(ClientBase& clientBase, Plan& plan)
+{
+    if (clientBase.isEmpty())
+        return;
+    
+    std::string number;
+    
+    while (true)
+    {
+        std::cout << "\nEnter client number (+375XXXXXXXXX): ";
+        std::cin >> number;
+        
+        if (number.size() != 13)
+        {
+            std::cout << "\nError number input!\n";
+            continue;
+        }
+        else
+            break;
+    }
+    
+    clientBase.editClient(number, plan);
 }
