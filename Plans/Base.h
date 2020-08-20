@@ -50,16 +50,17 @@ std::istream& BasePlan:: read(std::istream& in)
 std::ostream& BasePlan:: print(std::ostream& out) const
 {
     out << std::left << std::setfill('.') << "\n" << "Name plan \"" << name << "\"\n" <<
-    std::setw(35) << "Payment monthly" << paymentMonthly << " byn\n" <<
-    std::setw(35) << "Payment start" << paymentStart << " byn\n" <<
-    std::setw(35) << "Cost minute" << costMinute << " byn\n" <<
-    std::setw(35) << "Cost minute (other operator)" << costMinuteOtherOperator << " byn\n" <<
-    std::setw(35) << "Cost minute (city phone)" << costMinuteCityPhone << " byn\n" <<
-    std::setw(35) << "Cost sms" << costSms << " byn\n" <<
-    std::setw(35) << "Cost sms (other operator)" << costSmsOtherOperator << " byn\n" <<
-    std::setw(35) << "Cost Mb" << costMb << " byn" << std::setfill(' ');
+    std::setw(35) << "Payment monthly" << std::setw(5) << std::right << paymentMonthly << std::left << " byn\n" <<
+    std::setw(35) << "Payment start" << std::setw(5) << std::right << paymentStart << std::left << " byn\n" <<
+    std::setw(35) << "Cost minute" << std::setw(5) << std::right << costMinute << std::left << " byn\n" <<
+    std::setw(35) << "Cost minute (other operator)" << std::setw(5) << std::right << costMinuteOtherOperator << std::left << " byn\n" <<
+    std::setw(35) << "Cost minute (city phone)" << std::setw(5) << std::right << costMinuteCityPhone << std::left << " byn\n" <<
+    std::setw(35) << "Cost SMS" << std::setw(5) << std::right << costSms << std::left << " byn\n" <<
+    std::setw(35) << "Cost SMS (other operator)" << std::setw(5) << std::right << costSmsOtherOperator << std::left << " byn\n" <<
+    std::setw(35) << "Cost MB" << std::setw(5) << std::right << costMb << std::left << " byn" << std::setfill(' ');
     return out;
 }
+
 
 std::ostream& operator<<(std::ostream& out, std::shared_ptr<BasePlan> ptr)
 {

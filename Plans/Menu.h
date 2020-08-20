@@ -1,7 +1,7 @@
 #pragma once
 #include "Headers.h"
 
-void planPrintMenu(const Plan& plan)
+void menuPrintPlans(const Plan& plan)
 {
     while (true)
     {
@@ -46,7 +46,7 @@ void planPrintMenu(const Plan& plan)
     }
 }
 
-void planSortMenu(Plan& plan)
+void menuSortPlans(Plan& plan)
 {
     while (true)
     {
@@ -59,9 +59,9 @@ void planSortMenu(Plan& plan)
         "4. Sort for cost minute\n" <<
         "5. Sort for cost minute other operator\n" <<
         "6. Sort for cost minute city phone\n" <<
-        "7. Sort for cost sms\n" <<
-        "8. Sort for cost sms other operator\n" <<
-        "9. Sort for cost Mb\n" <<
+        "7. Sort for cost SMS\n" <<
+        "8. Sort for cost SMS other operator\n" <<
+        "9. Sort for cost MB\n" <<
         "0. Exit in start menu\n\n" <<
         "Enter number operation: ";
         std::cin >> operation;
@@ -110,7 +110,7 @@ void planSortMenu(Plan& plan)
     }
 }
 
-void planChooseMenu(Plan& plan)
+void menuChoosePlan(Plan& plan)
 {
     while (true)
     {
@@ -122,9 +122,9 @@ void planChooseMenu(Plan& plan)
         "3. Cost minute\n" <<
         "4. Cost minute other operator\n" <<
         "5. Cost minute city phone\n" <<
-        "6. Cost sms\n" <<
-        "7. Cost sms other operator\n" <<
-        "8. Cost Mb\n" <<
+        "6. Cost SMS\n" <<
+        "7. Cost SMS other operator\n" <<
+        "8. Cost MB\n" <<
         "0. Exit in start menu\n\n" <<
         "Enter number operation: ";
         std::cin >> operation;
@@ -160,17 +160,17 @@ void planChooseMenu(Plan& plan)
                 plan.choosePlanCostCityPhone(cost);
                 break;
             case 6:
-                std::cout << "\nEnter cost sms: ";
+                std::cout << "\nEnter cost SMS: ";
                 std::cin >> cost;
                 plan.choosePlanCostSms(cost);
                 break;
             case 7:
-                std::cout << "\nEnter cost sms other operator: ";
+                std::cout << "\nEnter cost SMS other operator: ";
                 std::cin >> cost;
                 plan.choosePlanCostSmsOtherOperator(cost);
                 break;
             case 8:
-                std::cout << "\nEnter cost Mb: ";
+                std::cout << "\nEnter cost MB: ";
                 std::cin >> cost;
                 plan.choosePlanCostMb(cost);
                 break;
@@ -186,7 +186,7 @@ void planChooseMenu(Plan& plan)
     }
 }
 
-void clientsSortMenu(ClientBase& clientBase)
+void menuSortClients(ClientBase& clientBase)
 {
     if (clientBase.isEmpty())
         return;
@@ -229,21 +229,49 @@ void clientsSortMenu(ClientBase& clientBase)
     }
 }
 
-void clientsPrintMenu(const ClientBase& clientBase)
+void menuPrintClients(const ClientBase& clientBase)
 {
     if (!clientBase.isEmpty())
         clientBase.print(std::cout);
 }
 
-void clientAddMenu(ClientBase& clientBase, Plan& plan)
+void menuAddClient(ClientBase& clientBase, Plan& plan)
 {
     std::string surname, name, patronymic, number;
-    std::cout << "\nEnter surname: ";
-    std::cin >> surname;
-    std::cout << "Enter name: ";
-    std::cin >> name;
-    std::cout << "Enter patronymic: ";
-    std::cin >> patronymic;
+    
+    while (true)
+    {
+        std::cout << "\nEnter surname: ";
+        std::cin >> surname;
+        
+        if (surname.size() <= 15)
+            break;
+        else
+            std::cout << "\nError! Surname is very long!\n";
+    }
+
+    while (true)
+    {
+        std::cout << "Enter name: ";
+        std::cin >> name;
+        
+        if (name.size() <= 15)
+            break;
+        else
+            std::cout << "\nError! Name is very long!\n\n";
+    }
+    
+    while (true)
+    {
+        std::cout << "Enter patronymic: ";
+        std::cin >> patronymic;
+        
+        if (patronymic.size() <= 15)
+            break;
+        else
+            std::cout << "\nError! Patronymic is very long!\n\n";
+    }
+    
     number = clientBase.getNewNumber();
     size_t num;
     
@@ -253,18 +281,22 @@ void clientAddMenu(ClientBase& clientBase, Plan& plan)
         std::cout << "\nEnter number plan: ";
         std::cin >> num;
         
-        if (num < plan.getCount())
+        if ((num != 0) && (num < (plan.getCount()+1)))
+        {
+            --num;
             break;
+        }
         else
             std::cout << "\nError number plan!\n";
     }
     
     std::shared_ptr<Client> client = std::make_shared<Client>(surname, name, patronymic, number, plan[num]);
-    clientBase.push(client);
+    clientBase.pushClient(client);
+    clientBase.pushClientInFile(client);
     std::cout << "\nClient successfully added!\n";
 }
 
-void clientEraseMenu(ClientBase& clientBase, Plan& plan)
+void menuEraseClient(ClientBase& clientBase)
 {
     if (clientBase.isEmpty())
         return;
@@ -287,7 +319,7 @@ void clientEraseMenu(ClientBase& clientBase, Plan& plan)
     clientBase.eraseClient(number);
 }
 
-void clientEditMenu(ClientBase& clientBase, Plan& plan)
+void menuEditClient(ClientBase& clientBase, Plan& plan)
 {
     if (clientBase.isEmpty())
         return;

@@ -11,7 +11,7 @@ private:
     std::shared_ptr<BasePlan> plan;
 public:
     Client() = default;
-    Client(std::string, std::string, std::string, std::string, std::shared_ptr<BasePlan>);
+    Client(std::string, std::string, std::string, std::string, std::shared_ptr<BasePlan> = nullptr);
     ~Client() = default;
     
     const std::string& getSurname() const { return surname; }
@@ -42,11 +42,11 @@ Client:: Client(std::string surname, std::string name, std::string patronymic, s
 std::ostream& Client:: print(std::ostream& out) const
 {
     out << std::left << std::setfill('.') << "\n" << "Client information\n" <<
-    std::setw(35) << "Surname" << surname << "\n" <<
-    std::setw(35) << "Name" << name << "\n" <<
-    std::setw(35) << "Patronymic" << patronymic << "\n" <<
-    std::setw(35) << "Number" << number << "\n" <<
-    std::setw(35) << "Plan" << plan->getName() << "\n" << std::setfill(' ') ;
+    std::setw(30) << "Surname" << std::setw(15) << std::right << surname << "\n" << std::left << std::setw(30) << "Name" <<
+    std::setw(15) << std::right << name << "\n" << std::left << std::setw(30) << "Patronymic" <<
+    std::setw(15) << std::right << patronymic << "\n" << std::left << std::setw(30) << "Number" <<
+    std::setw(15) << std::right << number << "\n" << std::left <<
+    std::setw(30) << "Plan" << std::setw(15) << std::right << plan->getName() << "\n" << std::setfill(' ') << std::left;
     return out;
 }
 

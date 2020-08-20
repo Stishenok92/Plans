@@ -25,7 +25,7 @@ std::ostream& EasySay:: print(std::ostream& out) const
 {
     BasePlan::print(out);
     out << std::left << std::setfill('.') << "\n" <<
-    std::setw(35) << "Package minute" << packageMinute << "\n" <<
-    std::setw(35) << "Package sms" << packageSms << std::setfill(' ');
+    std::setw(35) << "Package minute" << std::setw(9) << std::right << packageMinute << "\n" << std::left <<
+    std::setw(35) << "Package SMS" << std::setw(9) << std::right << packageSms << std::setfill(' ') << std::left;
     return out;
 }

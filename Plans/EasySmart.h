@@ -26,8 +26,8 @@ std::ostream& EasySmart:: print(std::ostream& out) const
 {
     BasePlan::print(out);
     out << std::left << std::setfill('.') << "\n" <<
-    std::setw(35) <<"Package minute" << packageMinute << "\n" <<
-    std::setw(35) <<"Package sms" << packageSms << "\n" <<
-    std::setw(35) <<"Package Mb" << packageMb << std::setfill(' ');
+    std::setw(35) << "Package minute" << std::setw(9) << std::right << packageMinute << "\n" << std::left <<
+    std::setw(35) << "Package SMS" << std::setw(9) << std::right << packageSms << "\n" << std::left <<
+    std::setw(35) << "Package MB" << std::setw(9) << std::right << packageMb << std::setfill(' ') << std::left;
     return out;
 }

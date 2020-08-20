@@ -10,33 +10,34 @@ public:
     ~ClientBase() = default;
     
     bool isEmpty() const;
+    void read(std::istream&, const Plan&);
     void print(std::ostream&) const;
-    void addInFile(const std::shared_ptr<Client>&);
-    void push(const std::shared_ptr<Client>&);
-    void remove(size_t);
     bool checkNumber(const std::string&) const;
-    std::string getNewNumber() const;
+    void pushClient(const std::shared_ptr<Client>&);
     void editClient(const std::string&, const Plan&);
     void eraseClient(const std::string&);
+    void pushClientInFile(const std::shared_ptr<Client>&);
+    void saveFile() const;
+    
     void sortSurname();
     void sortNumber();
     void sortPlan();
-    void save() const;
     
+    std::string getNewNumber() const;
     size_t getCount() const { return clients.size(); }
 };
 
-std::ostream& linelong(std::ostream& out) //манипулятор вывода длинной линии
+std::ostream& linelong(std::ostream& out)
 {
-    out << std::left << std::setfill('-') << std::setw(100) << "-" << "\n" << std::setfill(' ');
+    out << std::left << std::setfill('-') << std::setw(105) << "-" << "\n" << std::setfill(' ');
     return out;
 }
 
 void ClientBase:: print(std::ostream& out) const
 {
-    size_t cur = 0;
+    size_t cur = 1;
     out << "\n" << linelong <<
-    std::setw(7) << "[№]" <<
+    std::setw(12) << "№" <<
     std::setw(20) << "Surname" <<
     std::setw(20) << "Name" <<
     std::setw(20) << "Patronymic" <<
@@ -46,22 +47,16 @@ void ClientBase:: print(std::ostream& out) const
     
     std::for_each(clients.begin(), clients.end(), [&cur, &out] (std::shared_ptr<Client> client)
     {
-        out << "[" << cur++ << std::setw(3) << "]";
+        out << std::setw(10) << cur++;
         out << client << "\n";
     });
     
     out << linelong;
 }
 
-void ClientBase:: push(const std::shared_ptr<Client>& client)
+void ClientBase:: pushClient(const std::shared_ptr<Client>& client)
 {
     clients.push_back(client);
-    addInFile(client);
-}
-
-void ClientBase:: remove(size_t index)
-{
-    clients.erase(clients.begin()+index);
 }
 
 void ClientBase:: sortSurname()
@@ -76,7 +71,7 @@ void ClientBase:: sortNumber()
 
 void ClientBase:: sortPlan()
 {
-    std::sort(clients.begin(), clients.end(), [] (std::shared_ptr<Client> a, std::shared_ptr<Client> b) { return a->getPlan() < b->getPlan(); });
+    std::sort(clients.begin(), clients.end(), [] (std::shared_ptr<Client> a, std::shared_ptr<Client> b) { return a->getPlan()->getName() < b->getPlan()->getName(); });
 }
 
 bool ClientBase:: isEmpty() const
@@ -87,7 +82,7 @@ bool ClientBase:: isEmpty() const
     }
     else
     {
-        std::cout << "\nClient base empty!\n";
+        std::cout << "\nError! Client base empty!\n";
         return true;
     }
 }
@@ -105,15 +100,15 @@ bool ClientBase::checkNumber(const std::string& number) const
         return false;
 }
 
-void ClientBase::addInFile(const std::shared_ptr<Client>& client)
+void ClientBase::pushClientInFile(const std::shared_ptr<Client>& client)
 {
     std::ofstream infile("Client.txt", std::ios::app);
-    infile << std::left << "\n" <<
+    infile << std::left <<
     std::setw(20) << client->getSurname() <<
     std::setw(20) << client->getName() <<
     std::setw(20) << client->getPatronymic() <<
     std::setw(20) << client->getNumber() <<
-    std::setw(20) << client->getPlan()->getName();;
+    std::setw(20) << client->getPlan()->getName() << "\n";
     infile.close();
 }
 
@@ -142,7 +137,7 @@ void ClientBase::eraseClient(const std::string& number)
         {
             clients.erase(it);
             std::cout << "\nСlient successfully deleted!\n";
-            this->save();
+            this->saveFile();
             return;
         }
         else if (operation == 'n')
@@ -201,8 +196,7 @@ void ClientBase::editClient(const std::string& number, const Plan& plan)
                     {
                         if (flag)
                         {
-                            this->sortSurname();
-                            this->save();
+                            this->saveFile();
                         }
                         
                         return;
@@ -210,8 +204,18 @@ void ClientBase::editClient(const std::string& number, const Plan& plan)
                     case 1:
                     {
                         std::string str;
-                        std::cout << "\nEnter new surname: ";
-                        std::cin >> str;
+                        
+                        while (true)
+                        {
+                            std::cout << "\nEnter new surname: ";
+                            std::cin >> str;
+                            
+                            if (str.size() <= 15)
+                                break;
+                            else
+                                std::cout << "\nError! Surname is very long!\n";
+                        }
+                        
                         (*it)->setSurname(str);
                         std::cout << "\nSurname changed successfully!\n";
                         flag = true;
@@ -220,8 +224,18 @@ void ClientBase::editClient(const std::string& number, const Plan& plan)
                     case 2:
                     {
                         std::string str;
-                        std::cout << "\nEnter new name: ";
-                        std::cin >> str;
+                        
+                        while (true)
+                        {
+                            std::cout << "\nEnter new name: ";
+                            std::cin >> str;
+                            
+                            if (str.size() <= 15)
+                                break;
+                            else
+                                std::cout << "\nError! Name is very long!\n";
+                        }
+                        
                         (*it)->setName(str);
                         std::cout << "\nName changed successfully!\n";
                         flag = true;
@@ -230,8 +244,18 @@ void ClientBase::editClient(const std::string& number, const Plan& plan)
                     case 3:
                     {
                         std::string str;
-                        std::cout << "\nEnter new patronymic: ";
-                        std::cin >> str;
+                        
+                        while (true)
+                        {
+                            std::cout << "\nEnter new patronymic: ";
+                            std::cin >> str;
+                            
+                            if (str.size() <= 15)
+                                break;
+                            else
+                                std::cout << "\nError! Patronymic is very long!\n";
+                        }
+                        
                         (*it)->setPatronymic(str);
                         std::cout << "\nPatronymic changed successfully!\n";
                         flag = true;
@@ -248,6 +272,7 @@ void ClientBase::editClient(const std::string& number, const Plan& plan)
                     }
                     case 5:
                     {
+                        
                         while (true)
                         {
                             size_t num;
@@ -255,8 +280,9 @@ void ClientBase::editClient(const std::string& number, const Plan& plan)
                             std::cout << "\nEnter number plan: ";
                             std::cin >> num;
                             
-                            if (num < plan.getCount())
+                            if ((num != 0) && (num < (plan.getCount()+1)))
                             {
+                                --num;
                                 (*it)->setPlan(plan[num]);
                                 std::cout << "\nPlan changed successfully!\n";
                                 flag = true;
@@ -291,9 +317,9 @@ void ClientBase::editClient(const std::string& number, const Plan& plan)
     }
 }
 
-void ClientBase::save() const
+void ClientBase::saveFile() const
 {
-    std::ofstream file("Client2.txt");
+    std::ofstream file("Client.txt");
     file << std::left <<
     std::setw(20) << "Surname" <<
     std::setw(20) << "Name" <<
@@ -357,6 +383,21 @@ std::string ClientBase:: getNewNumber() const
             continue;
         }
         
+        bool flag = false;
+        
+        for (size_t i = 6; i < number.size(); i++)
+        {
+            if (!isdigit(number[i]))
+            {
+                std::cout << "\nError! Number can only be digits!\n\n";
+                flag = true;
+                break;
+            }
+        }
+        
+        if (flag)
+            continue;
+        
         if (checkNumber(number))
             break;
         else
@@ -364,4 +405,32 @@ std::string ClientBase:: getNewNumber() const
     }
     
     return number;
+}
+
+void ClientBase:: read(std::istream& file, const Plan& plan)
+{
+    if (!file)
+    {
+        std::cout << "Error opening file Client.txt!\n";
+        exit(0);
+    }
+    
+    std::string str;
+    getline(file, str);
+    
+    while (!file.eof())
+    {
+        getline(file, str);
+        
+        if (str == "")
+            break;
+        
+        std::istringstream ss(str);
+        std::string surname, name, patronymic, number, name_plan;
+        ss >> surname >> name >> patronymic >>number >> name_plan;
+        auto ptr = std::make_shared<Client> (surname, name, patronymic, number, plan.find(name_plan));
+        pushClient(ptr);
+    }
+    
+    std::cout << "\nClients successfully imported!\nQuantity: " << clients.size() << "\n";
 }

@@ -39,12 +39,13 @@ public:
     void choosePlanCostMb(double) const;                            //выбор тарифного плана по стоимости Mb
     
     const std::shared_ptr<BasePlan>& operator[](size_t) const;      //перегрузка оператора для доступа к элементам тарифных планов в веторе
+    const std::shared_ptr<BasePlan>& find(std::string) const;
     size_t getCount() const { return plans.size(); }                //получение количества клиентов
 };
 
 std::ostream& line(std::ostream& out)                               //манипулятор вывода линии
 {
-    out << std::left << std::setfill('-') << std::setw(44) << "-" << "\n" << std::setfill(' ');
+    out << std::left << std::setfill('-') << std::setw(45) << "-" << "\n" << std::setfill(' ');
     return out;
 }
 
@@ -71,13 +72,19 @@ bool Plan:: isEmpty() const
         return false;
     else
     {
-        std::cout << "\nSorry, no suitable plans!\n";
+        std::cout << "\nError! No suitable plans!\n";
         return true;
     }
 }
 
 void Plan:: read(std::istream& file)
 {
+    if (!file)
+    {
+        std::cout << "Error opening file Plan.txt!\n";
+        exit(0);
+    }
+    
     while (!file.eof())
     {
         int number;
@@ -88,6 +95,8 @@ void Plan:: read(std::istream& file)
         std::istringstream ss(str);
         plans.back()->read(ss);
     }
+    
+    std::cout << "\nPlans successfully imported!\nQuantity: " << plans.size() << "\n";
 }
 
 void Plan:: print(std::ostream& out) const
@@ -97,10 +106,9 @@ void Plan:: print(std::ostream& out) const
 
 void Plan:: printWithIndex(std::ostream& out) const
 {
-    size_t num = 0;
-    out << "\n" << line << "[№]  Plan" << "\n" << line;
-    std::for_each(plans.begin(), plans.end(), [&num, &out] (std::shared_ptr<BasePlan> temp_plan) { out << "[" << num++ << "]  " << temp_plan->getName() << "\n";});
-    out << line;
+    size_t num = 1;
+    out << "\nAvailable plans:\n";
+    std::for_each(plans.begin(), plans.end(), [&num, &out] (std::shared_ptr<BasePlan> temp_plan) { out << std::left  << num++ << ". " << temp_plan->getName() << "\n";});;
 }
 
 void Plan:: printEasy(std::ostream& out) const
@@ -265,4 +273,10 @@ void Plan:: choosePlanCostMb(double cost) const
         temp_plan.sortCostMb();
         temp_plan.print(std::cout);
     }
+}
+
+const std::shared_ptr<BasePlan>& Plan:: find(const std::string name) const
+{
+    auto iterator = std::find_if(plans.begin(), plans.end(), [name] (std::shared_ptr<BasePlan> plan) { return plan->getName() == name; } );
+    return *(iterator);
 }
