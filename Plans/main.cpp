@@ -1,5 +1,6 @@
 #include "Headers.h"
 
+
 int main()
 {
     std::cout << "Task \"Mobile operator\"\n";
@@ -37,7 +38,7 @@ int main()
             case 0:
                 flag = true;
                 clientBase.sortSurname();
-                clientBase.save();
+                clientBase.saveFile();
                 break;
             case 1:
                 menuPrintPlans(plan);
